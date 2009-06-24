@@ -39,6 +39,7 @@ if test -n "${machine_dir}"; then
 	iq2000) AC_CONFIG_SUBDIRS(iq2000) ;;
 	m32c) AC_CONFIG_SUBDIRS(m32c) ;;
 	m32r) AC_CONFIG_SUBDIRS(m32r) ;;
+	m6809) AC_CONFIG_SUBDIRS(m6809) ;;
 	m68hc11) AC_CONFIG_SUBDIRS(m68hc11) ;;
 	m68k) AC_CONFIG_SUBDIRS(m68k) ;;
 	m88k) AC_CONFIG_SUBDIRS(m88k) ;;

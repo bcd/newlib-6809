@@ -23,11 +23,13 @@ if test -n "${sys_dir}"; then
 	a29khif) AC_CONFIG_SUBDIRS(a29khif) ;;
 	arc) AC_CONFIG_SUBDIRS(arc) ;;
 	arm) AC_CONFIG_SUBDIRS(arm) ;;
+	coco) AC_CONFIG_SUBDIRS(coco) ;;
 	d10v) AC_CONFIG_SUBDIRS(d10v) ;;
 	decstation) AC_CONFIG_SUBDIRS(decstation) ;;
 	h8300hms) AC_CONFIG_SUBDIRS(h8300hms) ;;
 	h8500hms) AC_CONFIG_SUBDIRS(h8500hms) ;;
 	linux) AC_CONFIG_SUBDIRS(linux) ;;
+	m6809sim) AC_CONFIG_SUBDIRS(m6809sim) ;;
 	m88kbug) AC_CONFIG_SUBDIRS(m88kbug) ;;
 	mmixware) AC_CONFIG_SUBDIRS(mmixware) ;;
 	netware) AC_CONFIG_SUBDIRS(netware) ;;
