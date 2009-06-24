@@ -86,7 +86,7 @@
 #endif
 #endif
 
-#if defined(__m68k__) || defined(__mc68000__)
+#if defined(__m68k__) || defined(__mc68000__) || defined(__m6809__)
 #define __IEEE_BIG_ENDIAN
 #endif
 
