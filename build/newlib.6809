@@ -1,0 +1,59 @@
+#!/bin/sh
+
+unset MAKEFLAGS
+prefix=/usr/local
+target=m6809-unknown-none
+sudo=sudo
+
+while [ "x$1" != "x" ]; do
+case $1 in
+	coco)
+		target_arg=coco
+		prefix=/opt/coco
+		target=m6809-coco-none
+		;;
+	info)
+		${prefix}/bin/${target}-gcc -v
+		exit 0
+		;;
+	config)
+		# 4.4.0 is not working yet, so stay with 4.3.4
+		CC_FOR_TARGET="${prefix}/bin/${target}-gcc-4.3.4" \
+		AR_FOR_TARGET="${prefix}/bin/${target}-ar" \
+		LD_FOR_TARGET="${prefix}/bin/${target}-ld" \
+		RANLIB_FOR_TARGET="${prefix}/bin/${target}-ranlib" \
+		../configure --prefix=${prefix} --target="${target}" --disable-multilib \
+		   --program-prefix=${target}- \
+			--disable-malloc-debugging --with-gnu-ld --without-pic \
+			--enable-target-optspace
+		;;
+	make)
+		make
+		;;
+	install)
+		echo "Installing libc.a ..."
+		cp -p ${target}/newlib/libc/libc.a ${prefix}/${target}/lib
+		${prefix}/bin/${target}-ar --cache ${prefix}/${target}/lib/libc.a
+		echo "Installing libm.a ..."
+		cp -p ${target}/newlib/libm/libm.a ${prefix}/${target}/lib
+		${prefix}/bin/${target}-ar --cache ${prefix}/${target}/lib/libm.a
+		mkdir -p ${prefix}/${target}/include
+		echo "Installing include files..."
+		cp -pR ../newlib/libc/include/* ${prefix}/${target}/include
+		echo "Ensuring write permissions on include files..."
+		cd ${prefix}/${target}/include && find . -name "*.h" | xargs chmod +w
+		echo "Done."
+		;;
+	rebuild)
+		$0 ${target_arg} distclean config make
+		${sudo} $0 ${target_arg} install
+		;;
+	distclean)
+		rm -rf Makefile config.cache config.log config.status etc ${target} serdep.tmp
+		;;
+	*)
+		make $1
+		;;
+esac
+shift
+done

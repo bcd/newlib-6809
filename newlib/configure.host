@@ -167,13 +167,33 @@ case "${host_cpu}" in
 	machine_dir=m32r
 	;;
 
+  m6809)
+	machine_dir=m6809
+	newlib_cflags="${newlib_cflags} -save-temps -DPREFER_SIZE_OVER_SPEED"
+	# Turn on specific optimizations that help, without going full blown -O2.
+	newlib_cflags="${newlib_cflags} -fstrength-reduce -frerun-loop-opt -foptimize-sibling-calls -fstrict-aliasing -fregmove"
+	newlib_io_float="no"
+	CFLAGS=""
+	# WPC needs some extra flags
+	case ${host} in
+		*-*-*wpc*) 
+			newlib_cflags="${newlib_cflags} -mint8 -mwpc"
+			;;
+		*-coco-*) 
+			newlib_cflags="${newlib_cflags} -DTARGET_COCO"
+			;;
+		*)
+			;;
+	esac 
+	;;
+
   m68hc11|m6811|m68hc12|m6812)
 	machine_dir=m68hc11
 	newlib_cflags="-DPREFER_SIZE_OVER_SPEED -Os -mrelax"
 	CFLAGS="-g -Os"
 	;;
   
-  m68*)
+  m68k*)
 	machine_dir=m68k
 	newlib_cflags="${newlib_cflags} -DCOMPACT_CTYPE"
 	;;
@@ -409,7 +429,14 @@ case "${host}" in
 	##newlib_cflags="${newlib_cflags} -I`newlib-flags --kernel-dir`/include"
 	##newlib_cflags="${newlib_cflags} -idirafter ${gcc_dir}include"
 	;;
-
+  m6809-coco-*)
+   sys_dir=coco
+	have_crt0="no"
+   ;;
+  m6809-*-*)
+   sys_dir=m6809sim
+	have_crt0="no"
+   ;;
   m68hc11-*-*|m6811-*-*|m6812-*-*|m68hc12-*-*)
 	;;
 
@@ -616,6 +643,9 @@ case "${host}" in
 	newlib_cflags="${newlib_cflags} -msdata=sdata"
 	syscall_dir=syscalls
 	;;
+  m6809-*-*)
+	newlib_cflags="${newlib_cflags} -DNO_EXEC -DSMALL_MEMORY -DSIGNAL_PROVIDED -DMISSING_SYSCALL_NAMES -DNO_FLOATING_POINT -D_NO_POS_ARGS"
+  	;;
   m68hc11-*-*|m6811-*-*|m68hc12-*-*|m6812-*-*)
 	newlib_cflags="${newlib_cflags} -DNO_EXEC -DABORT_PROVIDED -DSMALL_MEMORY -DMISSING_SYSCALL_NAMES"
 	;;
