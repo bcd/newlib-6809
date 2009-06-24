@@ -1003,6 +1003,9 @@ is permitted to have its high guard word nonzero.  */
 
 static int edivm(short unsigned int *den, short unsigned int *num, LDPARMS *ldp)
 {
+#ifdef __m6809__
+	abort ();
+#else
 int i;
 register unsigned short *p;
 unsigned long tnum;
@@ -1086,6 +1089,7 @@ for( i=0; i<NI; i++ )
 	num[i] = equot[i];
 
 return( (int )j );
+#endif /* __m6809__ */
 }
 
 
