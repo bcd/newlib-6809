@@ -1,6 +1,10 @@
 #ifndef __WARNING_H__
 #define __WARNING_H__
 
+#ifdef __m6809__
+#undef HAVE_GNU_LD
+#endif
+
 #ifdef HAVE_GNU_LD
 # ifdef HAVE_ELF
 
