@@ -44,6 +44,11 @@ _BEGIN_STD_C
 #define _JBLEN  32
 #endif
 
+#if defined(__m6809__)
+/* D, X, Y, U, S, PC, DP, CC, plus some padding */
+#define _JBLEN 10
+#endif
+
 #if defined(__Z8001__) || defined(__Z8002__)
 /* 16 regs + pc */
 #define _JBLEN 20
