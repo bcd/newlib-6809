@@ -15,16 +15,17 @@ inline unsigned char inbyte (void)
  */
 int read (int fd, char *buf, int len)
 {
-	if (fd == 0)
-	{
-		while (len-- > 0)
-			*buf++ = inbyte ();
-		return (0);
-	}
-	else
-	{
+	int _len = len;
+
+	if (fd != 0)
 		return (-1);
+
+	while (len-- > 0)
+	{
+		*buf++ = inbyte ();
+		_len--;
 	}
+	return len;
 }
 
 

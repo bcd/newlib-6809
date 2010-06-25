@@ -16,16 +16,17 @@ inline void outbyte (unsigned char c)
  */
 int write (int fd, const char *buf, int len)
 {
-	if ((fd == 1) || (fd == 2))
-	{
-		while (len-- > 0)
-			outbyte (*buf++);
-		return (0);
-	}
-	else
-	{
+	int _len = len;
+
+	if (fd != 1 && fd != 2)
 		return (-1);
+
+	while (_len > 0)
+	{
+		outbyte (*buf++);
+		_len--;
 	}
+	return len;
 }
 
 
